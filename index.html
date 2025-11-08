@@ -1,0 +1,1643 @@
+<!DOCTYPE html>
+<html lang="id" class="light"> <!-- Tambahkan class 'light' sebagai default -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avee Premium Store | Beli Langganan Premium Murah & Terpercaya</title>
+    <!-- Memuat Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Memuat ikon Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Memuat Font Inter (Disarankan) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    
+    <script>
+        // Konfigurasi Tailwind untuk warna brand baru & mode gelap
+        tailwind.config = {
+            darkMode: 'class', // Mengaktifkan Dark Mode via class='dark' di <html>
+            theme: {
+                extend: {
+                    colors: {
+                        'soft-blue': '#C8E6F7',      
+                        'deep-blue': '#2563EB',      
+                        'light-bg': '#F0F8FF',      
+                        'card-bg': '#FFFFFF',        
+                        'text-primary': '#1F2937',   
+                        'accent-wa': '#25D366',      
+                        'accent-x': '#000000',      
+                        'accent-tiktok': '#EE1D52',
+                        // Warna Brand (Digunakan di JS dan CSS card dinamis)
+                        'brand-netflix': '#E50914',
+                        'brand-disney': '#113CCF',
+                        'brand-youtube': '#FF0000',
+                        'brand-viu': '#FF7120',
+                        'brand-wetv': '#00B3FF',
+                        'brand-iqiyi': '#409930',
+                        'brand-vidio': '#FF6600',
+                        'brand-canva': '#00C4CC',
+                        'brand-vplus': '#FF0000',
+                        'brand-aprime': '#232F3E',
+                        'brand-hbo': '#5402F0',
+                        'brand-vsco': '#000000',
+                        'brand-picsart': '#FF4C68',
+                        'brand-lroom': '#3D335A',
+                        'brand-resso': '#FF0050',
+                        'brand-bstation': '#00A1D6',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 12px rgba(0, 0, 0, 0.05)',
+                        'lg-soft': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Menggunakan font Inter */
+        body {  
+            font-family: 'Inter', sans-serif;  
+            color: #1f2937; /* Gray-800 */
+            min-height: 3000px;  
+            transition: background-color 0.5s, color 0.5s; /* Transisi untuk Dark Mode */
+        }
+
+        /* --- 1. GRADASI LATAR BELAKANG MENYELURH (BODY) --- */
+        body {
+            /* Light Mode Background */
+            background: linear-gradient(to bottom, #e4f0ff 0%, #ffffff 500px, #f0f8ff 1000px, #ffffff 1500px, #e4f0ff 2000px, #ffffff 3000px);
+            background-attachment: fixed;  
+        }
+
+        /* Dark Mode Overrides */
+        html.dark body {
+            color: #d1d5db; /* Gray-300 */
+            background: #111827; /* Gray-900 */
+            background-image: linear-gradient(to bottom, #1f2937 0%, #111827 500px, #1f2937 1000px, #111827 1500px, #1f2937 2000px, #111827 3000px);
+        }
+        
+        /* Konfigurasi Warna Kustom */
+        :root {
+            --color-avee-primary: #3b82f6;  
+            --color-avee-light: #93c5fd;  
+        }
+
+        /* --- 2. GAYA KARTU DAN INTERAKSI UMUM --- */
+        .card-product {
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(147, 197, 253, 0.5);
+            position: relative;  
+            animation: subtleFloat 4s ease-in-out infinite alternate;
+            will-change: transform, box-shadow; /* Optimasi */
+        }
+        html.dark .card-product {
+            background-color: #1f2937; /* Gray-800 */
+            border-color: rgba(55, 65, 81, 0.5); /* Darker border */
+            box-shadow: 0 8px 16px -4px rgba(255, 255, 255, 0.05), 0 4px 6px -2px rgba(255, 255, 255, 0.03);
+        }
+
+        /* Efek Hover Card Produk: Lift, Scale, dan Shadow Biru */
+        .card-product:hover {
+            transform: translateY(-12px) scale(1.03);
+            box-shadow: 0 20px 40px -8px rgba(59, 130, 246, 0.35), 0 4px 6px -4px rgba(59, 130, 246, 0.2);
+            animation-play-state: paused;  
+        }
+
+        /* Animasi Kontinu pada Card Product */
+        @keyframes subtleFloat {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-5px); }
+        }
+
+        /* --- 3. EFEK REFLEKSI/GLOSSY PADA CARD --- */
+        .card-product::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 1rem; /* rounded-2xl */
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1) 40%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0.1) 60%, rgba(255, 255, 255, 0) 100%);
+            pointer-events: none;
+            transition: opacity 0.5s;
+            opacity: 0.8;
+        }
+        html.dark .card-product::before {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.03) 40%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.03) 60%, rgba(255, 255, 255, 0) 100%);
+        }
+
+
+        /* --- 4. GAYA HEADER DENGAN BLUR-ON-SCROLL --- */
+        .navbar-blur {
+            transition: all 0.5s ease-in-out;
+            background-color: transparent;
+            box-shadow: none;
+        }
+
+        .navbar-blur.scrolled {
+            background-color: rgba(255, 255, 255, 0.95);  
+            backdrop-filter: blur(10px);  
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 6px 12px -3px rgba(0, 0, 0, 0.15);  
+        }
+        
+        html.dark .navbar-blur.scrolled {
+            background-color: rgba(31, 41, 55, 0.95); /* Gray-800 semi-transparan */
+            box-shadow: 0 6px 12px -3px rgba(0, 0, 0, 0.4);  
+        }
+
+
+        /* --- 5. ANIMASI SCROLL-APPEAR KUSTOM --- */
+        @keyframes fadeInSlide {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .scroll-appear {
+            opacity: 0;
+            transform: translateY(40px);  
+            transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);  
+        }
+
+        .scroll-appear.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- 6. ANIMASI PARTIKEL KUPU-KUPU/GELEMBUNG & HERO --- */
+        .bubble-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .bubble {
+            position: absolute;
+            background-color: rgba(147, 197, 253, 0.6);  
+            border-radius: 50%;
+            animation: floatBubble 15s infinite ease-in-out alternate;
+        }
+        html.dark .bubble {
+            background-color: rgba(75, 85, 99, 0.5); /* Darker bubbles */
+        }
+        
+        /* EFEK BARU: Kartu Hero Interaktif (Parallax) */
+        .floating-card {
+            /* Transisi untuk pergerakan parallax yang mulus */
+            transition: transform 0.1s linear; 
+            will-change: transform;
+        }
+
+        /* --- TESTIMONI CAROUSEL & Lainnya tetap sama --- */
+        .modal-content-container { max-height: 90vh; overflow-y: auto; }
+        .collapse-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-in-out; }
+        .collapse-content.open { max-height: 500px; }
+        
+        /* Dark mode untuk elemen non-tailwind */
+        html.dark .bg-gray-50 { background-color: #1f2937; } /* Testimoni Section BG */
+        html.dark .text-gray-600 { color: #9ca3af; } /* Text sub-judul */
+        html.dark .text-gray-900 { color: #f3f4f6; } /* Text judul */
+        html.dark .text-gray-700 { color: #d1d5db; }
+        html.dark .bg-white { background-color: #374151; } /* Kartu testimoni */
+        html.dark .bg-blue-600 { background-color: #3b82f6; } /* CTA Blue */
+        html.dark .text-blue-600 { color: #60a5fa; } /* Teks Biru */
+        html.dark .bg-blue-50 { background-color: #1f2937; } /* Hover/Aksen Biru Muda */
+        html.dark .bg-blue-100 { background-color: #374151; } /* Icon background */
+
+        /* --- EFEK BARU: Testimoni Carousel (Scale & Opacity) --- */
+        .testimonial-carousel {
+            display: flex;
+            align-items: center;  
+            justify-content: flex-start;
+            transition: transform 0.5s ease-in-out;  
+            will-change: transform;
+            white-space: nowrap;  
+        }
+        .testimonial-card-wrapper {
+            position: relative;
+            flex-shrink: 0;
+            /* Responsif: Mobile 80%, Desktop 33.3% */
+            width: 80%; 
+            max-width: 380px; /* Lebar kartu maks */
+            padding: 0 10px;
+            box-sizing: border-box;
+            transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
+            white-space: normal; /* Kembali ke normal untuk konten card */
+            
+            /* Gaya default (non-aktif) */
+            transform: scale(0.9);
+            opacity: 0.6;
+            z-index: 10;
+        }
+        
+        /* Gaya Kartu AKTIF (di tengah) */
+        .testimonial-card-wrapper.active {
+            transform: scale(1.05); /* Membesar */
+            opacity: 1;
+            z-index: 20; /* Mendekat ke depan */
+        }
+
+        /* Bayangan lebih kuat untuk kartu aktif */
+        .testimonial-card-wrapper.active .testimonial-card-content {
+             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.08); /* shadow-xl enhanced */
+        }
+        html.dark .testimonial-card-wrapper.active .testimonial-card-content {
+             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Menyesuaikan untuk Desktop (3 kartu) */
+        @media (min-width: 768px) {
+             .testimonial-card-wrapper {
+                width: 33.3333%;
+             }
+        }
+        
+        /* Di Mobile, semua kartu sama besar (tidak ada scale) */
+        @media (max-width: 767px) {
+            .testimonial-card-wrapper {
+                opacity: 1;
+                transform: scale(1);
+            }
+            .testimonial-card-wrapper.active {
+                transform: scale(1); /* Tidak ada pembesaran di mobile */
+            }
+        }
+
+
+        /* --- EFEK BARU: Payment Marquee (Animasi Geser) --- */
+        .payment-marquee-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            /* Efek fade di tepi agar terlihat seamless */
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+            mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+        }
+        .payment-logo-wrapper {
+            display: flex;
+            width: max-content; /* Sangat lebar untuk menampung 2x set logo */
+            animation: marquee 30s linear infinite; /* Kecepatan geser */
+        }
+        
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); } /* Berhenti di akhir set pertama (untuk loop) */
+        }
+        
+        /* Animasi mengambang untuk logo pembayaran */
+        @keyframes float-payment {
+             0% { transform: translateY(0); }
+             100% { transform: translateY(-5px); }
+        }
+
+        .payment-logo-marquee {
+            flex-shrink: 0;
+            width: 150px; /* Lebar tetap per logo */
+            margin: 0 15px; /* Jarak antar logo (Jangan terlalu dempet) */
+            height: 80px; 
+            background-color: #ffffff; 
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Bayangan */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: float-payment 3s ease-in-out infinite alternate; /* Animasi atas-bawah */
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .payment-logo-marquee:hover {
+             transform: translateY(-8px) scale(1.05); /* Efek hover */
+             box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+             animation-play-state: paused; /* Hentikan float saat di-hover */
+        }
+        
+        .payment-logo-marquee img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* 'contain' terbaik untuk logo */
+            padding: 10px; /* Jarak logo dari tepi kartu */
+        }
+
+        /* Dark mode untuk marquee */
+        html.dark .payment-logo-marquee {
+            background-color: #374151; /* gray-700 */
+            border-color: #4b5563; /* gray-600 */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+    </style>
+</head>
+<body class="text-gray-800 antialiased">
+
+    <!-- Tombol Floating WA dan Social Media -->
+    <div class="fixed bottom-4 right-4 z-50 flex flex-col space-y-3">
+        <a href="https://wa.me/6287766107867" target="_blank" rel="noopener noreferrer"
+           class="p-4 rounded-full shadow-lg-soft bg-accent-wa text-white transition duration-300 transform hover:scale-110 hover:shadow-xl"
+           aria-label="Hubungi via WhatsApp">
+            <i data-lucide="message-square-text" class="w-6 h-6"></i>
+        </a>
+        <a href="https://twitter.com/Aveeeryxn" target="_blank" rel="noopener noreferrer"
+           class="p-4 rounded-full shadow-lg-soft bg-accent-x text-white transition duration-300 transform hover:scale-110 hover:shadow-xl"
+           aria-label="Kunjungi Twitter Aveeeryxn">
+            <i data-lucide="twitter" class="w-6 h-6"></i>
+        </a>
+        <a href="https://tiktok.com/@Aerlyxn" target="_blank" rel="noopener noreferrer"
+           class="p-4 rounded-full shadow-lg-soft bg-accent-tiktok text-white transition duration-300 transform hover:scale-110 hover:shadow-xl"
+           aria-label="Kunjungi TikTok Aerlyxn">
+            <i data-lucide="music" class="w-6 h-6"></i>
+        </a>
+    </div>
+
+    <!-- Container Notifikasi -->
+    <div id="notification-container" class="fixed top-20 right-4 z-50 space-y-2"></div>
+    
+    <!-- Header / Navbar Interaktif (dengan Blur on Scroll) -->
+    <header id="main-header" class="sticky top-0 z-50 navbar-blur">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+            <!-- Logo Avee -->
+            <a href="#" class="flex items-center space-x-2 group">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-blue-600 transition duration-300 group-hover:rotate-12 group-hover:scale-110">
+                    <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z" fill="currentColor" opacity="0.15"/>
+                    <path d="M8 12.5L11 15.5L16 9.5" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition duration-500 group-hover:stroke-blue-700"/>
+                </svg>
+                <span class="text-xl font-extrabold tracking-tight text-blue-700 transition duration-300 group-hover:text-blue-900">Avee Premium Store</span>
+            </a>
+
+            <!-- Navigasi -->
+            <nav class="hidden md:flex space-x-6">
+                <a href="#produk" class="nav-link text-gray-600 hover:text-blue-600 font-medium relative transition duration-200 dark:text-gray-300 dark:hover:text-blue-400">Produk</a>
+                <a href="#kategori" class="nav-link text-gray-600 hover:text-blue-600 font-medium relative transition duration-200 dark:text-gray-300 dark:hover:text-blue-400">Kategori</a>
+                <a href="#fitur" class="nav-link text-gray-600 hover:text-blue-600 font-medium relative transition duration-200 dark:text-gray-300 dark:hover:text-blue-400">Fitur Kami</a>
+                <a href="#pembayaran" class="nav-link text-gray-600 hover:text-blue-600 font-medium relative transition duration-200 dark:text-gray-300 dark:hover:text-blue-400">Pembayaran</a>
+                <a href="#testimoni" class="nav-link text-gray-600 hover:text-blue-600 font-medium relative transition duration-200 dark:text-gray-300 dark:hover:text-blue-400">Testimoni</a>
+            </nav>
+
+            <!-- Aksi Pengguna (Diperbarui: Tombol Dark Mode) -->
+            <div class="flex items-center space-x-3">
+                <button id="theme-toggle" onclick="toggleTheme()" class="p-2 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 rounded-full transition duration-200 hover:bg-blue-50 dark:hover:bg-gray-700">
+                    <i data-lucide="moon" id="moon-icon" class="w-5 h-5 block dark:hidden"></i>
+                    <i data-lucide="sun" id="sun-icon" class="w-5 h-5 hidden dark:block"></i>
+                </button>
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-full shadow-lg shadow-blue-300 transform transition duration-200 hover:scale-105 active:scale-95">
+                    Masuk
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- 1. Hero Section - Gradasi & Dinamis (Diperbarui) -->
+        <section class="hero-section pt-16 pb-24 md:pt-24 md:pb-36 relative z-10">
+            <!-- Wadah untuk partikel kupu-kupu/gelembung -->
+            <div class="bubble-container">
+                <!-- Partikel Gelembung/Kupu-kupu -->
+                <div class="bubble w-4 h-4" style="left: 10%; top: 20%; animation-duration: 10s;"></div>
+                <div class="bubble w-6 h-6" style="left: 80%; top: 50%; animation-duration: 12s; animation-delay: 1s;"></div>
+                <div class="bubble w-3 h-3" style="left: 45%; top: 10%; animation-duration: 8s; animation-delay: 3s;"></div>
+                <div class="bubble w-5 h-5" style="left: 20%; top: 70%; animation-duration: 15s; animation-delay: 2s;"></div>
+                <div class="bubble w-7 h-7" style="left: 70%; top: 80%; animation-duration: 9s; animation-delay: 4s;"></div>
+            </div>
+
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between relative z-20">
+                <!-- Konten Teks -->
+                <div class="md:w-1/2 mb-12 md:mb-0 text-center md:text-left">
+                    <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight mb-4" style="animation: fadeInSlide 1s ease-out 0.2s backwards;">
+                        <span class="text-blue-600 block">Akses Premium</span> Paling Aman & Terjangkau.
+                    </h1>
+                    <p class="text-xl text-gray-600 mb-8" style="animation: fadeInSlide 1s ease-out 0.4s backwards;">
+                        Tontonan, Editing Kreatif, dan Musik. Semua ada di Avee.
+                    </p>
+                    <a href="#produk" class="inline-block bg-blue-600 text-white font-bold py-3 px-8 rounded-full shadow-xl shadow-blue-400 transform transition duration-300 hover:bg-blue-700 hover:scale-105 active:scale-95">
+                        Jelajahi Sekarang
+                    </a>
+                </div>
+
+                <!-- Ilustrasi/Aplikasi Unggulan (Diperbarui) -->
+                <div class="md:w-1/2 flex justify-center relative">
+                    <div id="hero-apps" class="w-full max-w-md relative p-8 h-80"> <!-- Beri tinggi tetap untuk positioning
+ -->
+                        <!-- Kartu 1: Netflix (Animasi Dihapus, diganti JS) -->
+                        <div class="floating-card absolute bg-white p-4 rounded-2xl shadow-2xl transform rotate-3 -translate-y-12 transition duration-500 dark:bg-gray-700" style="top: 10%; left: 10%;">
+                            <img src="https://yt3.googleusercontent.com/CvgBA1ypUZNxOjiCX0l1V2FbAm7oSDPZE4YkMvkpT_4iLXQ3IXWVtBgWnznHxgtcUoj50TXqZA=s900-c-k-c0x00ffffff-no-rj" alt="Netflix" class="rounded-lg w-20 h-20">
+                        </div>
+                        
+                        <!-- Kartu 2: Spotify (Animasi Dihapus, diganti JS) -->
+                        <div class="floating-card absolute bg-white p-4 rounded-2xl shadow-2xl transform -rotate-6 transition duration-500 dark:bg-gray-700" style="bottom: 5%; right: 10%;">
+                            <img src="https://m.media-amazon.com/images/I/31B2Nyzd8XL.png" alt="Spotify" class="rounded-lg w-20 h-20">
+                        </div>
+                        
+                        <!-- Kartu 3: Lightroom (Teks Dihapus, Animasi Dihapus) -->
+                        <div class="floating-card absolute bg-white p-4 rounded-2xl shadow-2xl transform rotate-12 transition duration-500 dark:bg-gray-700" style="top: 40%; right: 5%;">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5QlSxwJl8yWlWY50n7lLhGnnmirt7N6_YGg&s" onerror="this.onerror=null;this.src='https://placehold.co/80x80/3D335A/ffffff?text=LR';" alt="Lightroom Logo" class="rounded-lg w-20 h-20 object-contain">
+                            <!-- Teks Dihapus -->
+                        </div>
+                        
+                        <!-- Kartu 4: YouTube Premium (Teks Dihapus, Animasi Dihapus) -->
+                        <div class="floating-card absolute bg-white p-4 rounded-2xl shadow-2xl transform -rotate-3 transition duration-500 dark:bg-gray-700" style="top: 60%; left: 15%;">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png" onerror="this.onerror=null;this.src='https://placehold.co/80x80/FF0000/ffffff?text=YT';" alt="YouTube Logo" class="rounded-lg w-20 h-20 object-contain">
+                            <!-- Teks Dihapus -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Elemen Dekorasi Partikel -->
+            <div class="absolute inset-0 z-0 opacity-10 pointer-events-none">
+                <div class="w-10 h-10 bg-blue-400 rounded-full absolute top-1/4 left-1/4 animate-ping-slow"></div>
+                <div class="w-6 h-6 bg-blue-300 rounded-full absolute bottom-1/3 right-1/4 animate-bounce-slow"></div>
+                <div class="w-12 h-12 bg-blue-500 rounded-full absolute top-1/2 right-1/2 animate-spin-slow"></div>
+            </div>
+        </section>
+
+        <!-- 2. Kategori Interaktif (Diperbarui: Hilangkan AI & Gaming) -->
+        <section id="kategori" class="py-20 relative z-20">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 scroll-appear">Pilih Kategori Langganan Terbaik</h2>
+
+                <!-- Grid diperbarui dari 5 kolom ke 3 kolom di desktop untuk 3 kategori yang tersisa -->
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                    
+                    <!-- Kartu Kategori 1: Tontonan/Hiburan -->
+                    <a href="#" class="category-card p-6 text-center rounded-2xl shadow-lg bg-white/70 backdrop-blur-sm transition duration-300 scroll-appear dark:bg-gray-700/70">
+                        <div class="category-icon-bg w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-blue-200 text-blue-600">
+                            <i data-lucide="tv" class="w-8 h-8"></i>
+                        </div>
+                        <p class="font-semibold text-lg leading-tight dark:text-gray-200">Tontonan</p>  
+                        <p class="text-sm text-gray-500 leading-tight dark:text-gray-400">Hiburan</p>
+                    </a>
+
+                    <!-- Kartu Kategori 3: Editing Software -->
+                    <a href="#" class="category-card p-6 text-center rounded-2xl shadow-lg bg-white/70 backdrop-blur-sm transition duration-300 scroll-appear dark:bg-gray-700/70">
+                        <div class="category-icon-bg w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-blue-200 text-blue-600">
+                            <i data-lucide="scissors" class="w-8 h-8"></i>
+                        </div>
+                        <p class="font-semibold text-lg leading-tight mb-1 dark:text-gray-200">Editing Software</p>
+                        <p class="text-sm text-gray-500 leading-tight dark:text-gray-400">Canva Pro, Adobe</p>
+                    </a>
+
+                    <!-- Kartu Kategori 5: Lifestyle & Lainnya -->
+                    <a href="#" class="category-card p-6 text-center rounded-2xl shadow-lg bg-white/70 backdrop-blur-sm transition duration-300 scroll-appear dark:bg-gray-700/70">
+                        <div class="category-icon-bg w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-blue-200 text-blue-600">
+                            <i data-lucide="coffee" class="w-8 h-8"></i>
+                        </div>
+                        <p class="font-semibold text-lg leading-tight mb-1 dark:text-gray-200">Lifestyle & Lainnya</p>
+                        <p class="text-sm text-gray-500 leading-tight dark:text-gray-400">Bebas memilih!</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Daftar Produk (Grid Dinamis diisi oleh JavaScript) -->
+        <section id="produk" class="py-20 relative z-20">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 scroll-appear">Pilihan Langganan Populer Avee</h2>
+
+                <!-- Filter Bar Profesional -->
+                <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 md:space-x-4 mb-12 scroll-appear">
+                    <div class="w-full md:w-1/3">
+                        <!-- Mengganti liveSearch dengan filterCards untuk menggunakan logika baru -->
+                        <input type="text" id="search-input" onkeyup="filterCards()" placeholder="Cari produk premium (Netflix, Canva, Vidio)..." class="w-full p-3 border border-gray-300 rounded-xl focus:ring-blue-500 focus:border-blue-500 transition duration-200 shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200">
+                    </div>
+                    <div class="flex space-x-4">
+                        <select class="p-3 border border-gray-300 rounded-xl transition duration-200 shadow-sm hover:border-blue-400 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200">
+                            <option>Semua Tipe</option>
+                            <option>User Regular</option>
+                            <option>User Host</option>
+                        </select>
+                        <select class="p-3 border border-gray-300 rounded-xl transition duration-200 shadow-sm hover:border-blue-400 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200">
+                            <option>Semua Kategori</option>
+                            <option>Tontonan/Hiburan</option>
+                            <option>Editing Software</option>
+                            <option>Lifestyle & Lainnya</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Kontainer Produk Dinamis -->
+                <div id="pricelist-section" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Cards akan di-generate oleh JS di sini -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Fitur Unggulan (Why Avee?) - Mikro Interaksi -->
+        <section id="fitur" class="py-20 relative z-20">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 scroll-appear">Kenapa Harus Avee Premium Store?</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                    <!-- Fitur 1: Harga Terbaik -->
+                    <div class="p-8 text-center rounded-2xl border-2 border-blue-100 hover:border-blue-400 transform transition duration-300 hover:shadow-2xl hover:bg-blue-50 scroll-appear dark:border-gray-700 dark:hover:border-blue-800 dark:hover:bg-gray-800">
+                        <div class="inline-block p-4 rounded-full bg-blue-100 text-blue-600 mb-4 transform transition duration-500 hover:scale-125">
+                            <i data-lucide="tag" class="w-8 h-8"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 dark:text-gray-100">Harga Paling Kompetitif</h3>
+                        <p class="text-gray-600 dark:text-gray-400">Kami menjamin Anda mendapatkan langganan dengan harga termurah di pasaran.</p>
+                    </div>
+
+                    <!-- Fitur 2: Keamanan Terjamin -->
+                    <div class="p-8 text-center rounded-2xl border-2 border-blue-100 hover:border-blue-400 transform transition duration-300 hover:shadow-2xl hover:bg-blue-50 scroll-appear dark:border-gray-700 dark:hover:border-blue-800 dark:hover:bg-gray-800">
+                        <div class="inline-block p-4 rounded-full bg-blue-100 text-blue-600 mb-4 transform transition duration-500 hover:scale-125">
+                            <i data-lucide="shield-check" class="w-8 h-8"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 dark:text-gray-100">Akun 100% Legal & Aman</h3>
+                        <p class="text-gray-600 dark:text-gray-400">Semua akun premium dijamin legal dan bergaransi penuh dari Avee.</p>
+                    </div>
+
+                    <!-- Fitur 3: Dukungan Cepat -->
+                    <div class="p-8 text-center rounded-2xl border-2 border-blue-100 hover:border-blue-400 transform transition duration-300 hover:shadow-2xl hover:bg-blue-50 scroll-appear dark:border-gray-700 dark:hover:border-blue-800 dark:hover:bg-gray-800">
+                        <div class="inline-block p-4 rounded-full bg-blue-100 text-blue-600 mb-4 transform transition duration-500 hover:scale-125">
+                            <i data-lucide="messages-square" class="w-8 h-8"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 dark:text-gray-100">Dukungan 24/7</h3>
+                        <p class="text-gray-600 dark:text-gray-400">Tim Avee siap membantu Anda mengatasi masalah kapan pun dan di mana pun.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Bagian Metode Pembayaran (DIRUBAH: Menjadi Marquee) -->
+        <section id="pembayaran" class="py-20 relative z-20">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 scroll-appear">Metode Pembayaran Fleksibel</h2>
+                <p class="text-xl text-center text-gray-600 mb-16 max-w-3xl mx-auto scroll-appear dark:text-gray-400">
+                    Pembayaran Mudah, Transaksi Aman. Nikmati kemudahan bertransaksi dengan berbagai pilihan metode populer yang kami sediakan.
+                </p>
+
+                <!-- Kontainer Marquee Baru -->
+                <div class="payment-marquee-container">
+                    <div class="payment-logo-wrapper">
+                        <!-- Set 1: Logo Asli -->
+                        <div class="payment-logo-marquee">
+                            <img src="https://storage.googleapis.com/wpc-storage/jadiojk.id/2025/02/86c896d5-image-2048x1024.png" onerror="this.onerror=null;this.src='https://placehold.co/100x40/ffffff/000000?text=BCA';" alt="BCA">
+                        </div>
+                        <div class="payment-logo-marquee">
+                            <img src="https://cdn0-production-images-kly.akamaized.net/-WAxK4I0K-kiGb1uNWZ__BFyWTA=/1200x675/smart/filters:quality(75):strip_icc():format(jpeg)/kly-media-production/medias/4255282/original/094712800_1670569941-mandiri.jpg" onerror="this.onerror=null;this.src='https://placehold.co/100x40/ffffff/000000?text=Mandiri';" alt="Mandiri">
+                        </div>
+                        <div class="payment-logo-marquee">
+                            <img src="https://nabiilahstore.com/wp-content/uploads/2020/11/kisspng-bank-negara-indonesia-logo-bank-bni-syariah-pt-sym-republik-logo-bank-5b7964f47f6cd5.984586111534682356522-1024x419.png" onerror="this.onerror=null;this.src='https://placehold.co/100x40/ffffff/000000?text=BNI';" alt="BNI">
+                        </div>
+                        <div class="payment-logo-marquee">
+                            <img src="https://asset.kompas.com/crops/_XAClBFSG9BGL63ut6ZeomqN8Nc=/80x373:492x648/750x500/data/photo/2023/11/14/6553a465e3abe.png" onerror="this.onerror=null;this.src='https://placehold.co/100x40/ffffff/000000?text=DANA';" alt="DANA">
+                        </div>
+                        <div class="payment-logo-marquee">
+                            <img src="https://cdn.freelogovectors.net/wp-content/uploads/2023/10/gopay-logo-01-freelogovectors.net_.png" onerror="this.onerror=null;this.src='https://placehold.co/100x40/ffffff/000000?text=GoPay';" alt="GoPay">
+                        </div>
+                        <div class="payment-logo-marquee">
+                            <img src="https://i.pinimg.com/originals/61/c9/8a/61c98a1dffc2e04424d592564cef941f.png" onerror="this.onerror=null;this.src='https://placehold.co/100x40/ffffff/000000?text=OVO';" alt="OVO">
+                        </div>
+                        <div class="payment-logo-marquee">
+                            <img src="https://tse4.mm.bing.net/th/id/OIP.M7y3e-6oB486L0whccKOhwHaDu?rs=1&pid=ImgDetMain&o=7&rm=3" onerror="this.onerror=null;this.src='https://placehold.co/100x40/ffffff/000000?text=QRIS';" alt="QRIS">
+                        </div>
+                        <div class="payment-logo-marquee">
+                            <img src="https://logos-world.net/wp-content/uploads/2022/04/Alfamart-Emblem.png" onerror="this.onerror=null;this.src='https://placehold.co/100x40/ffffff/000000?text=Alfamart';" alt="Alfamart">
+                        </div>
+                        <div class="payment-logo-marquee">
+                            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhBMjGibJMDSwmwFvQFb4GPYthT_tuXsE4--XtDBwHnmCApILR5_dZAdyUsXIa8szbH3VJjp6VRat7oEvzrTVkcZhDp7BeRG5wZHDG4nkqAj_b_S5OtXXeppQ5cQkbqcP97d3ZBXom1mtV8AE0UD6zEG6vrYlMrO-svP37BGhzYiiLj_k6pjoGfuCdd/w1200-h630-p-k-no-nu/logo-indomaret.png" onerror="this.onerror=null;this.src='https://placehold.co/100x40/ffffff/000000?text=Indomaret';" alt="Indomaret">
+                        </div>
+
+                        <!-- Set 2: Duplikat Logo untuk Animasi Seamless -->
+                        <div class="payment-logo-marquee">
+                            <img src="https://storage.googleapis.com/wpc-storage/jadiojk.id/2025/02/86c896d5-image-2048x1024.png" onerror="this.onerror=null;this.src='https://placehold.co/100x40/ffffff/000000?text=BCA';" alt="BCA">
+                        </div>
+                        <div class="payment-logo-marquee">
+                            <img src="https://cdn0-production-images-kly.akamaized.net/-WAxK4I0K-kiGb1uNWZ__BFyWTA=/1200x675/smart/filters:quality(75):strip_icc():format(jpeg)/kly-media-production/medias/4255282/original/094712800_1670569941-mandiri.jpg" onerror="this.onerror=null;this.src='https://placehold.co/100x40/ffffff/000000?text=Mandiri';" alt="Mandiri">
+                        </div>
+                        <div class="payment-logo-marquee">
+                            <img src="https://nabiilahstore.com/wp-content/uploads/2020/11/kisspng-bank-negara-indonesia-logo-bank-bni-syariah-pt-sym-republik-logo-bank-5b7964f47f6cd5.984586111534682356522-1024x419.png" onerror="this.onerror=null;this.src='https://placehold.co/100x40/ffffff/000000?text=BNI';" alt="BNI">
+                        </div>
+                        <div class="payment-logo-marquee">
+                            <img src="https://asset.kompas.com/crops/_XAClBFSG9BGL63ut6ZeomqN8Nc=/80x373:492x648/750x500/data/photo/2023/11/14/6553a465e3abe.png" onerror="this.onerror=null;this.src='https://placehold.co/100x40/ffffff/000000?text=DANA';" alt="DANA">
+                        </div>
+                        <div class="payment-logo-marquee">
+                            <img src="https://cdn.freelogovectors.net/wp-content/uploads/2023/10/gopay-logo-01-freelogovectors.net_.png" onerror="this.onerror=null;this.src='https://placehold.co/100x40/ffffff/000000?text=GoPay';" alt="GoPay">
+                        </div>
+                        <div class="payment-logo-marquee">
+                            <img src="https://i.pinimg.com/originals/61/c9/8a/61c98a1dffc2e04424d592564cef941f.png" onerror="this.onerror=null;this.src='https://placehold.co/100x40/ffffff/000000?text=OVO';" alt="OVO">
+                        </div>
+                        <div class="payment-logo-marquee">
+                            <img src="https://tse4.mm.bing.net/th/id/OIP.M7y3e-6oB486L0whccKOhwHaDu?rs=1&pid=ImgDetMain&o=7&rm=3" onerror="this.onerror=null;this.src='https://placehold.co/100x40/ffffff/000000?text=QRIS';" alt="QRIS">
+                        </div>
+                        <div class="payment-logo-marquee">
+                            <img src="https://logos-world.net/wp-content/uploads/2022/04/Alfamart-Emblem.png" onerror="this.onerror=null;this.src='https://placehold.co/100x40/ffffff/000000?text=Alfamart';" alt="Alfamart">
+                        </div>
+                        <div class="payment-logo-marquee">
+                            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhBMjGibJMDSwmwFvQFb4GPYthT_tuXsE4--XtDBwHnmCApILR5_dZAdyUsXIa8szbH3VJjp6VRat7oEvzrTVkcZhDp7BeRG5wZHDG4nkqAj_b_S5OtXXeppQ5cQkbqcP97d3ZBXom1mtV8AE0UD6zEG6vrYlMrO-svP37BGhzYiiLj_k6pjoGfuCdd/w1200-h630-p-k-no-nu/logo-indomaret.png" onerror="this.onerror=null;this.src='https://placehold.co/100x40/ffffff/000000?text=Indomaret';" alt="Indomaret">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        
+        <!-- 6. Testimoni Carousel Otomatis (Vertical Stack) -->
+        <section id="testimoni" class="py-20 relative z-20 overflow-hidden bg-gray-50">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 scroll-appear">Apa Kata Pelanggan Avee?</h2>
+                <p class="text-xl text-center text-gray-600 mb-10 max-w-3xl mx-auto scroll-appear dark:text-gray-400">
+                    Ribuan pengguna telah mempercayai Avee untuk kebutuhan premium mereka. Lihat ulasan terbaru!
+                </p>
+
+                <div class="relative max-w-5xl mx-auto overflow-hidden">
+                    <!-- Carousel Window -->
+                    <div class="relative h-[450px] md:h-[500px] flex items-center justify-center">
+                        <div id="testimonial-slider" class="testimonial-carousel">
+                            
+                            <!-- DATA TESTIMONI -->
+                            <div class="testimonial-card-wrapper active">
+                                <div class="testimonial-card-content p-6 bg-white rounded-2xl shadow-xl border border-blue-50 border-opacity-50 h-[400px] flex-none dark:bg-gray-700 dark:border-gray-600">
+                                    <div class="flex items-center mb-4">
+                                        <img src="https://placehold.co/50x50/3b82f6/ffffff?text=A" alt="Avatar" class="w-12 h-12 rounded-full mr-4 object-cover">
+                                        <div>
+                                            <p class="font-bold text-blue-600">Arief R.</p>
+                                            <p class="text-sm text-gray-500 dark:text-gray-400">Langganan Netflix</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-gray-700 italic flex-grow dark:text-gray-300">"Gila sih, langganan di Avee super cepat. 5 menit langsung bisa streaming 4K! Adminnya responsif banget, bintang lima!"</p>
+                                    <p class="text-xs text-right text-gray-400 mt-4 dark:text-gray-500">— 2 jam lalu</p>
+                                </div>
+                            </div>
+                            
+                            <div class="testimonial-card-wrapper">
+                                <div class="testimonial-card-content p-6 bg-white rounded-2xl shadow-xl border border-blue-50 border-opacity-50 h-[400px] flex-none dark:bg-gray-700 dark:border-gray-600">
+                                    <div class="flex items-center mb-4">
+                                        <img src="https://placehold.co/50x50/93c5fd/ffffff?text=D" alt="Avatar" class="w-12 h-12 rounded-full mr-4 object-cover">
+                                        <div>
+                                            <p class="font-bold text-blue-600">Dewi S.</p>
+                                            <p class="text-sm text-gray-500 dark:text-gray-400">Beli Canva Pro</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-gray-700 italic flex-grow dark:text-gray-300">"Selalu langganan Canva di sini. Harganya jauh lebih hemat daripada beli langsung. Fiturnya lengkap, prosesnya gak ribet."</p>
+                                    <p class="text-xs text-right text-gray-400 mt-4 dark:text-gray-500">— 1 hari lalu</p>
+                                </div>
+                            </div>
+                            
+                            <div class="testimonial-card-wrapper">
+                                <div class="testimonial-card-content p-6 bg-white rounded-2xl shadow-xl border border-blue-50 border-opacity-50 h-[400px] flex-none dark:bg-gray-700 dark:border-gray-600">
+                                    <div class="flex items-center mb-4">
+                                        <img src="https://placehold.co/50x50/60a5fa/ffffff?text=K" alt="Avatar" class="w-12 h-12 rounded-full mr-4 object-cover">
+                                        <div>
+                                            <p class="font-bold text-blue-600">Kiki Z.</p>
+                                            <p class="text-sm text-gray-500 dark:text-gray-400">Slot Spotify Family</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-gray-700 italic flex-grow dark:text-gray-300">"Harga Spotify paling murah yang pernah saya temukan. Kualitas audio premium, tanpa iklan. Bener-bener recommended!"</p>
+                                    <p class="text-xs text-right text-gray-400 mt-4 dark:text-gray-500">— 3 hari lalu</p>
+                                </div>
+                            </div>
+                            
+                            <div class="testimonial-card-wrapper">
+                                <div class="testimonial-card-content p-6 bg-white rounded-2xl shadow-xl border border-blue-50 border-opacity-50 h-[400px] flex-none dark:bg-gray-700 dark:border-gray-600">
+                                    <div class="flex items-center mb-4">
+                                        <img src="https://placehold.co/50x50/374151/ffffff?text=E" alt="Avatar" class="w-12 h-12 rounded-full mr-4 object-cover">
+                                        <div>
+                                            <p class="font-bold text-blue-600">Eko P.</p>
+                                            <p class="text-sm text-gray-500 dark:text-gray-400">Langganan Lama</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-gray-700 italic flex-grow dark:text-gray-300">"Sangat puas dengan layanan Avee. Selalu cepat dalam pemrosesan dan garansi akun tidak pernah mengecewakan. Mantap!"</p>
+                                    <p class="text-xs text-right text-gray-400 mt-4 dark:text-gray-500">— 1 minggu lalu</p>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                    <!-- Tombol Navigasi -->
+                    <button onclick="prevTestimonial()" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition duration-200 z-30 ml-4">
+                        <i data-lucide="chevron-left" class="w-6 h-6"></i>
+                    </button>
+                    <button onclick="nextTestimonial()" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition duration-200 z-30 mr-4">
+                        <i data-lucide="chevron-right" class="w-6 h-6"></i>
+                    </button>
+                    
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. CTA Sederhana -->
+        <section class="py-16 bg-blue-600 relative z-20">
+            <!-- Wadah untuk partikel kupu-kupu/gelembung -->
+            <div class="bubble-container opacity-50">
+                <div class="bubble w-5 h-5" style="left: 90%; top: 10%; animation-duration: 8s;"></div>
+                <div class="bubble w-4 h-4" style="left: 5%; top: 70%; animation-duration: 11s; animation-delay: 1s;"></div>
+            </div>
+
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between text-white relative z-30">
+                <h2 class="text-3xl font-bold mb-4 md:mb-0">Siap Mengupgrade Hidup Digital Anda?</h2>
+                <a href="#produk" class="bg-white text-blue-600 font-bold py-3 px-8 rounded-full shadow-lg transform transition duration-300 hover:scale-105 hover:shadow-xl active:scale-95">
+                    Mulai Berlangganan
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12 relative z-20 dark:bg-gray-900 dark:text-gray-200">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-5 gap-8">
+            <div class="col-span-2 md:col-span-2">
+                <h4 class="text-xl font-bold mb-4">Avee Premium Store</h4>
+                <p class="text-gray-400 text-sm">Penyedia layanan langganan premium terpercaya dan termurah. Didukung oleh seller Avee.</p>
+                <div class="flex space-x-4 mt-4">
+                    <a href="#" class="text-gray-400 hover:text-blue-400 transition duration-200 transform hover:scale-125"><i data-lucide="instagram" class="w-6 h-6"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-blue-400 transition duration-200 transform hover:scale-125"><i data-lucide="facebook" class="w-6 h-6"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-blue-400 transition duration-200 transform hover:scale-125"><i data-lucide="twitter" class="w-6 h-6"></i></a>
+                </div>
+            </div>
+
+            <!-- Kolom Link Cepat -->
+            <div>
+                <h4 class="font-semibold mb-4 text-blue-300">Perusahaan</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="text-gray-400 hover:text-white transition duration-200">Tentang Kami</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition duration-200">Skema Harga</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition duration-200">Kebijakan Privasi</a></li>
+                </ul>
+            </div>
+
+            <!-- Kolom Bantuan -->
+            <div>
+                <h4 class="font-semibold mb-4 text-blue-300">Bantuan</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="text-gray-400 hover:text-white transition duration-200">FAQ</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition duration-200">Kontak Kami</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition duration-200">Laporan Kendala</a></li>
+                </ul>
+            </div>
+
+            <!-- Kolom Produk -->
+            <div>
+                <h4 class="font-semibold mb-4 text-blue-300">Kategori</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="text-gray-400 hover:text-white transition duration-200">Tontonan</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition duration-200">Editing</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition duration-200">Lifestyle</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="mt-8 pt-8 border-t border-gray-700 text-center text-sm text-gray-500">
+            &copy; 2024 Avee Premium Store. Semua Hak Cipta Dilindungi.
+        </div>
+    </footer>
+
+
+    <!-- MODAL PEMBELIAN (Diposisikan di atas semua konten) -->
+    <div id="order-modal" class="fixed inset-0 bg-gray-900 bg-opacity-70 hidden items-center justify-center p-4 z-50 transition-opacity duration-300" onclick="closeModal(event)">
+        <div class="modal-content-container bg-white w-full max-w-lg rounded-2xl p-6 shadow-lg-soft relative transform transition-all duration-300 scale-95 opacity-0 dark:bg-gray-800" onclick="event.stopPropagation()">
+            <button onclick="closeModal()" class="absolute top-4 right-4 p-2 text-gray-500 hover:text-red-500 transition">
+                <i data-lucide="x" class="w-6 h-6 dark:text-gray-400"></i>
+            </button>
+
+            <h2 id="modal-title" class="text-3xl font-bold mb-6 text-deep-blue">Detail Paket</h2>
+            
+            <!-- Keterangan Penting (Netflix, Vidio, Viu, dll) -->
+            <div id="app-keterangan-toggle" class="mb-4 hidden">
+                <button onclick="toggleCollapse('app-keterangan-content', 'keterangan-icon')" class="w-full text-left p-3 bg-soft-blue/50 rounded-lg flex justify-between items-center font-semibold text-deep-blue hover:bg-soft-blue transition dark:bg-gray-700/50 dark:hover:bg-gray-700 dark:text-blue-400">
+                    Keterangan Penting Aplikasi
+                    <i id="keterangan-icon" data-lucide="chevron-down" class="w-5 h-5 transition-transform duration-300"></i>
+                </button>
+                <div id="app-keterangan-content" class="collapse-content p-4 bg-white/80 border border-soft-blue rounded-b-lg dark:bg-gray-800/80 dark:border-gray-700">
+                    <!-- Konten Keterangan Aplikasi akan diisi di sini -->
+                </div>
+            </div>
+
+            <div id="modal-detail-content" class="space-y-4"></div>
+
+            <div id="purchase-form" class="mt-8 pt-6 border-t border-soft-blue hidden dark:border-gray-700">
+                <h3 class="text-2xl font-bold mb-4 text-text-primary dark:text-gray-100">Konfirmasi Pembelian</h3>
+                
+                <div class="p-4 mb-4 bg-soft-blue/20 rounded-lg border-l-4" id="order-detail-card">
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Anda Membeli:</p>
+                    <p class="text-lg font-semibold dark:text-gray-100" id="order-item-detail"></p>
+                    <input type="hidden" id="selected-price-id">
+                    <input type="hidden" id="selected-price-unit-price">
+                </div>
+
+                <div class="flex justify-between items-center mb-6 p-4 border border-soft-blue rounded-lg shadow-sm dark:border-gray-600">
+                    <label class="text-lg font-medium dark:text-gray-200">Jumlah Beli (Max 3):</label>
+                    <div class="flex items-center space-x-3">
+                        <button onclick="updateQuantity(-1)" class="p-2 w-10 h-10 bg-gray-200 rounded-full text-xl font-bold hover:bg-gray-300 transition duration-150 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600" aria-label="Kurangi Jumlah">-</button>
+                        <span id="quantity-display" class="text-2xl font-bold w-6 text-center dark:text-gray-100">1</span>
+                        <button onclick="updateQuantity(1)" class="p-2 w-10 h-10 bg-deep-blue text-white rounded-full text-xl font-bold hover:bg-blue-600 transition duration-150" aria-label="Tambah Jumlah">+</button>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <h4 class="text-lg font-medium mb-3 dark:text-gray-200">Pilih Metode Pembayaran:</h4>
+                    <div id="payment-methods" class="grid grid-cols-2 gap-4"></div>
+                </div>
+
+                <div id="total-price-display-container" class="flex justify-between items-center text-2xl font-bold p-4 text-white rounded-xl mb-6 shadow-md" style="background-color: #2563EB;">
+                    <span>TOTAL HARGA:</span>
+                    <span id="total-price-display">Rp0</span>
+                </div>
+
+                <button onclick="generateWaLink()" class="w-full py-4 text-xl font-bold text-white bg-accent-wa rounded-xl hover:bg-green-600 transition duration-200 shadow-md transform hover:scale-[1.01]">
+                    <i data-lucide="send" class="w-5 h-5 mr-2 inline-block"></i>
+                    Beli Sekarang (via WhatsApp)
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // --- DATA GAMBAR DAN BRAND LENGKAP (Diperbarui) ---
+        const APP_IMAGES = {
+            "Netflix": {
+                logo: "https://yt3.googleusercontent.com/CvgBA1ypUZNxOjiCX0l1V2FbAm7oSDPZE4YkMvkpT_4iLXQ3IXWVtBgWnznHxgtcUoj50TXqZA=s900-c-k-c0x00ffffff-no-rj",
+                banner: "https://flixnet.epizy.com/wp-content/uploads/2023/04/43e0db2f-fea0-4308-bfb9-09f2a88f6ee4_what_is_netflix_1_en.png",  
+            },
+            "Disney+ Hotstar": {
+                logo: "https://cdn.antaranews.com/cache/1200x800/2021/03/10/share-default.png",
+                banner: "https://cdn.broadbandtvnews.com/wp-content/uploads/2024/09/23115137/Disney-Nordics.jpg",
+            },
+            "YouTube Premium": {
+                logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/YouTube_social_white_square_%282024%29.svg/1200px-YouTube_social_white_square_%282024%29.svg.png",
+                banner: "https://redcomm.co.id/red-twill/medias/8e7141e3-55a2-4a0f-a893-96d851b9792a/memasarkan-brand-menggunakan-youtube.webp?w=1000&q=80",
+            },
+            "Viu": {
+                logo: "https://play-lh.googleusercontent.com/SbK9sNWitPcPRxVCwkRBUQm_QtgpjMJRhMC6NNSwYcEbuEjsHB_1oC-TSk-Xn3ja2b4",
+                banner: "https://asset-2.tribunnews.com/jogja/foto/bank/images/Layanan-streaming-Viu.jpg",
+            },
+            "WeTV": {
+                logo: "https://screenscore.digitalmama.id/wp-content/uploads/2025/09/IMG_1798-1.png",
+                banner: "https://akunmu.id/storage/products/image-varian-digital/image-varian-digital-HCXO-660216.webp",
+            },
+            "IQIYI": {
+                logo: "https://play-lh.googleusercontent.com/2TiYCzZE4VAkS6eZYB_YHmnEa92uj9ErgJzFzuounzZ63VTOLzE-c49g1xR1U3PYkZ-Y",
+                banner: "https://u1.iqiyipic.com/intl_lang/20221018/1e/ed/intl_lang_e6c737cb4efe956740cab9ece21f_default.png",
+            },
+            "Vidio": {
+                logo: "https://play-lh.googleusercontent.com/SfWzLXzi9uSRLuy_tnmOrf3h7GFB_zQUcFU6S18l3UzyW1WoF9WqVa-tibyK8_AfXgvPLYMzbUQsRqaYBqCyVQ",
+                banner: "https://ik.trn.asia/uploads/2022/10/1664929614306.jpeg", // Link baru
+            },
+            "Vision+": {
+                logo: "https://play-lh.googleusercontent.com/wURWiFnV1vnlW_sBIIqhL2EQ8aY1pWpjGpbnqAxYPjjcuYMHyHitfSI3guro6_k-AFo",
+                banner: "https://bss-assets-cdn.visionplus.id/content-assets/og_image.jpg",
+            },
+            "Amazon Prime": {
+                logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFAuGMKpMzzDtqBTS18xBw7JDuN6TqyawvgQ&s",
+                banner: "https://m.media-amazon.com/images/G/01/primevideo/seo/primevideo-seo-logo.png", // Link baru
+            },
+            "HBO Go": {
+                logo: "https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full/catalog-image/106/MTA-161399923/no_brand_hbo_go_premium_1tahun_full_garansi_full01_fm94q9yx.jpg",
+                banner: "https://i.blogs.es/727095/hbo-go/1200_630.jpg",
+            },
+            "VSCO": {
+                logo: "https://images.seeklogo.com/logo-png/43/2/vsco-logo-png_seeklogo-432328.png", // Link baru
+                banner: "https://techcrunch.com/wp-content/uploads/2023/02/vsco-tc-header.jpg?w=1024",
+            },
+            "Picsart": {
+                logo: "https://www.cnet.com/a/img/resize/fa90cb92b6ca5e9962a935e5eb9033382092e2b2/hub/2017/01/03/d948e00f-0d9d-452f-acd5-62c8ff9d1228/picsarts-new.png?auto=webp&width=768",
+                banner: "https://miro.medium.com/1*-X-jrUTZ_nQRMTVHXCSQMg.jpeg",
+            },
+            "Lightroom": {
+                logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5QlSxwJl8yWlWY50n7lLhGnnmirt7N6_YGg&s",
+                banner: "https://blog.adobe.com/en/publish/2023/07/26/media_18a51281d19bf3115adc82b27c3424090f30f60e1.jpeg?width=750&format=jpeg&optimize=medium",
+            },
+            "Resso": {
+                logo: "https://pbs.twimg.com/profile_images/1549963801923305472/09V5SssV_400x400.jpg",
+                banner: "https://yangcanggih.com/wp-content/uploads/2020/03/Resso-2.jpg",
+            },
+            "Bstation": {
+                logo: "https://pic.bstarstatic.com/fe-activity/images/YoYvSHUSXE_w600_h600.jpg",
+                banner: "https://api.duniagames.co.id/optimize-image?url=https%3A%2F%2Fapi.duniagames.co.id%2Fapi%2Fcontent%2Fupload%2Ffile%2F9654294091674103115.jpg&format=webp&width=736&signature=c09fa000ebb000d2158f89772e129f9a809e87aeadc305ee40aa1518e00f7705",
+            },
+            "Canva": {
+                logo: "https://play-lh.googleusercontent.com/JC3HW-ps59VAEU3vuJoi3I5XB_IQ9ISuILLudUY9uLSW7eKfqtXitrB-fF865rV4TQ",
+                banner: "https://cdn.medcom.id/dynamic/content/2024/10/04/1718130/OQMwWDG9Cm.jpeg?w=640",
+            },
+             "Spotify": {
+                logo: "https://i.pinimg.com/736x/f5/3c/6c/f53c6ce6f793a1e5af96dddaccb5eb14.jpg",
+                banner: "https://gizmologi.id/wp-content/uploads/2020/12/Spotify-Premium-Mini-001.jpg", // Link baru
+            },
+        };
+
+        const PRICES = {
+            "Netflix": [
+                { id: 'nf1p1u_1h', name: "1P1U (1 Hari)", price: 5000, duration: "1 Hari", category: "1P1U", stock: 10, data_category: "Hiburan" },
+                { id: 'nf1p1u_3h', name: "1P1U (3 Hari)", price: 12000, duration: "3 Hari", category: "1P1U", stock: 10, data_category: "Hiburan" },
+                { id: 'nfprv_1b', name: "Private (1 Bulan)", price: 150000, duration: "1 Bulan", category: "Private", stock: 10, data_category: "Hiburan" },
+            ],
+            "Disney+ Hotstar": [
+                { id: 'dpprem_6u', name: "Premium (6U - 1 Bulan)", price: 30000, duration: "1 Bulan", category: "Premium", stock: 10, data_category: "Hiburan" },
+                { id: 'dpbas_3u', name: "Basic (3U - 1 Bulan)", price: 33000, duration: "1 Bulan", category: "Basic", stock: 10, data_category: "Hiburan" },
+            ],
+            "YouTube Premium": [
+                { id: 'ytfp_1b', name: "Famplan (1 Bulan)", price: 8000, duration: "1 Bulan", category: "Famplan", stock: 10, data_category: "Hiburan" },
+                { id: 'ytfp_2b', name: "Famplan (2 Bulan)", price: 13000, duration: "2 Bulan", category: "Famplan", stock: 10, data_category: "Hiburan" },
+            ],
+            "Viu": [
+                { id: 'viub_1b', name: "Biasa (1 Bulan)", price: 7000, duration: "1 Bulan", category: "Biasa", stock: 10, data_category: "Hiburan" },
+                { id: 'viupriv_1b', name: "Prem + Anlim Private (1 Bulan)", price: 38000, duration: "1 Bulan", category: "Prem + Anlim (Private)", stock: 10, data_category: "Hiburan" },
+            ],
+            "WeTV": [
+                { id: 'wtsv_1b', name: "Sharing (1 Bulan)", price: 15000, duration: "1 Bulan", category: "Sharing", stock: 10, data_category: "Hiburan" },
+                { id: 'wtpr_1b', name: "Private (1 Bulan)", price: 37000, duration: "1 Bulan", category: "Private", stock: 10, data_category: "Hiburan" },
+            ],
+            "IQIYI": [
+                { id: 'iqish_1b', name: "Sharing 5U (1 Bulan)", price: 10000, duration: "1 Bulan", category: "Sharing", stock: 10, data_category: "Hiburan" },
+                { id: 'iqipr_1b', name: "Private (1 Bulan)", price: 32000, duration: "1 Bulan", category: "Private", stock: 10, data_category: "Hiburan" },
+            ],
+            "Vidio": [
+                { id: 'vidplsh_1b', name: "Platinum All Device Sharing (1 Bulan)", price: 23000, duration: "1 Bulan", category: "Platinum (All Device)", stock: 10, data_category: "Hiburan" },
+                { id: 'viddmapr_1b', name: "Diamond All Device Private (1 Bulan)", price: 105000, duration: "1 Bulan", category: "Diamond (All Device)", stock: 10, data_category: "Hiburan" },
+            ],
+            "Vision+": [
+                { id: 'vissh_1b', name: "Sport Sharing 2U (1 Bulan)", price: 20000, duration: "1 Bulan", category: "Sport", stock: 10, data_category: "Hiburan" },
+                { id: 'vispr_1b', name: "Sport Private (1 Bulan)", price: 35000, duration: "1 Bulan", category: "Sport", stock: 10, data_category: "Hiburan" },
+            ],
+            "Amazon Prime": [
+                { id: 'aps_1h', name: "Sharing (1 Hari)", price: 3000, duration: "1 Hari", category: "Sharing", stock: 10, data_category: "Hiburan" },
+                { id: 'appr_1b', name: "Private (1 Bulan)", price: 25000, duration: "1 Bulan", category: "Private", stock: 10, data_category: "Hiburan" },
+            ],
+            "HBO Go": [
+                { id: 'hbos_1h', name: "Sharing (1 Hari)", price: 3000, duration: "1 Hari", category: "Sharing", stock: 10, data_category: "Hiburan" },
+                { id: 'hbopr_1b', name: "Private (1 Bulan)", price: 60000, duration: "1 Bulan", category: "Private", stock: 10, data_category: "Hiburan" },
+            ],
+            "Spotify": [
+                { id: 'sppr_1b', name: "Private (1 Bulan)", price: 50000, duration: "1 Bulan", category: "Private", stock: 10, data_category: "Hiburan" },
+                { id: 'spfp_1b', name: "Famplan (1 Bulan)", price: 17000, duration: "1 Bulan", category: "Famplan", stock: 10, data_category: "Hiburan" },
+            ],
+            "VSCO": [
+                { id: 'vscosh_plus', name: "Sharing Plus (1 Tahun)", price: 17000, duration: "1 Tahun", category: "Sharing", stock: 10, data_category: "Editing Software" },
+                { id: 'vscosh_pro', name: "Sharing Pro (1 Tahun)", price: 20000, duration: "1 Tahun", category: "Sharing", stock: 10, data_category: "Editing Software" },
+            ],
+            "Picsart": [
+                { id: 'pssh_1b', name: "Sharing (1 Bulan)", price: 10000, duration: "1 Bulan", category: "Sharing", stock: 10, data_category: "Editing Software" },
+                { id: 'pspr_1b', name: "Private (1 Bulan)", price: 25000, duration: "1 Bulan", category: "Private", stock: 10, data_category: "Editing Software" },
+            ],
+            "Lightroom": [
+                { id: 'lrpre_500', name: "Preset (500+)", price: 10000, duration: "Permanen", category: "Preset", stock: 10, data_category: "Editing Software" },
+                { id: 'lrpre_1000', name: "Preset (1000+)", price: 15000, duration: "Permanen", category: "Preset", stock: 10, data_category: "Editing Software" },
+            ],
+            "Resso": [
+                { id: 'rsfp_1b', name: "Famplan (1 Bulan)", price: 9000, duration: "1 Bulan", category: "Famplan", stock: 10, data_category: "Hiburan" },
+            ],
+            "Bstation": [
+                { id: 'bssh_1t', name: "Sharing (1 Tahun)", price: 30000, duration: "1 Tahun", category: "Sharing", stock: 10, data_category: "Hiburan" },
+                { id: 'bspr_1t', name: "Private (1 Tahun)", price: 35000, duration: "1 Tahun", category: "Private", stock: 10, data_category: "Hiburan" },
+            ],
+            "Canva": [
+                { id: 'cnvmem_1h', name: "Member (1 Hari)", price: 2000, duration: "1 Hari", category: "Member", stock: 10, data_category: "Editing Software" },
+                { id: 'cnvadm_lt', name: "Admin (Lifetime)", price: 125000, duration: "Lifetime", category: "Admin", stock: 10, data_category: "Editing Software" },
+            ],
+            // Midjourney Dihapus
+        };
+
+        const PRODUCT_ICONS = {
+            "Netflix": "clapperboard", "Disney+ Hotstar": "film", "YouTube Premium": "youtube", "Viu": "monitor", "WeTV": "tv",
+            "IQIYI": "airplay", "Vidio": "video", "Vision+": "radio", "Amazon Prime": "package", "HBO Go": "camera",
+            "VSCO": "image", "Picsart": "scissors", "Lightroom": "sun", "Resso": "music", "Bstation": "globe", "Canva": "palette",
+            "Spotify": "headphones"
+        };
+        
+        const BRAND_COLORS = {
+            "Netflix": { main: '#E50914', text: '#FFFFFF' }, "Disney+ Hotstar": { main: '#113CCF', text: '#FFFFFF' },
+            "YouTube Premium": { main: '#FF0000', text: '#FFFFFF' }, "Viu": { main: '#FF7120', text: '#FFFFFF' },
+            "WeTV": { main: '#00B3FF', text: '#FFFFFF' }, "IQIYI": { main: '#409930', text: '#FFFFFF' },
+            "Vidio": { main: '#FF6600', text: '#FFFFFF' }, "Canva": { main: '#00C4CC', text: '#FFFFFF' },
+            "Vision+": { main: '#FF0000', text: '#FFFFFF' }, "Amazon Prime": { main: '#232F3E', text: '#FFFFFF' },
+            "HBO Go": { main: '#5402F0', text: '#FFFFFF' }, "VSCO": { main: '#000000', text: '#FFFFFF' },
+            "Picsart": { main: '#FF4C68', text: '#FFFFFF' }, "Lightroom": { main: '#3D335A', text: '#FFFFFF' },
+            "Resso": { main: '#FF0050', text: '#FFFFFF' }, "Bstation": { main: '#00A1D6', text: '#FFFFFF' },
+            "Spotify": { main: '#1db954', text: '#FFFFFF' }
+        };
+        
+        // KETERANGAN APLIKASI UNTUK MODAL DETAIL (FAQ)
+        const APP_KETERANGAN = {
+            "Netflix": `
+                <p class="font-bold">Batasan Screen dan Profile:</p>
+                <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 mt-2 dark:text-gray-300">
+                    <li><strong class="text-red-500">1 Profile 1 Orang:</strong> 4 orang menonton bersamaan, 1 orang lainnya kena limit screen.</li>
+                    <li><strong class="text-red-500">1 Profile 2 Orang:</strong> 4 orang menonton bersamaan, 6 orang lainnya kena limit screen.</li>
+                    <li><strong class="text-red-500">1 Profile 4-5 Orang:</strong> 4 orang menonton bersamaan, 16-21 orang lainnya kena limit screen.</li>
+                    <li>4 adalah jumlah yang sudah ditetapkan oleh Netflix untuk batas limit screen. Semakin banyak orang dalam 1 akun = semakin tinggi resiko limit.</li>
+                    <li><strong class="text-red-500">SARAN:</strong> Bagi yang tidak sabar, silakan download filmnya! Ada harga, ada kualitas.</li>
+                </ul>
+            `,
+            "Vidio": `
+                <p class="font-bold">Perbedaan Plan Platinum & Diamond:</p>
+                <div class="grid grid-cols-2 gap-4 mt-2 text-sm">
+                    <div>
+                        <p class="font-semibold text-blue-600 dark:text-blue-400">PLAN PLATINUM</p>
+                        <ul class="list-disc list-inside space-y-1 text-gray-700 dark:text-gray-300">
+                            <li>Menonton olahraga pilihan (UCL, UEL, BRI Liga 1, dll).</li>
+                            <li>Bebas nonton video (sebelum dan selama konten diputar).</li>
+                            <li>Kualitas HD 1080p.</li>
+                            <li><strong class="text-red-500">Syarat:</strong> Hanya bisa ditonton di 1 perangkat di waktu yang sama.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-red-600 dark:text-red-400">PLAN DIAMOND</p>
+                        <ul class="list-disc list-inside space-y-1 text-gray-700 dark:text-gray-300">
+                            <li>Semua konten Platinum + Premier League.</li>
+                            <li>Termasuk nonton mobile (Paket Mobile tidak bisa di TV & Desktop).</li>
+                            <li>Bebas nonton Premier League live.</li>
+                            <li><strong class="text-red-500">Syarat:</strong> Hanya bisa ditonton di 1 perangkat di waktu yang sama.</li>
+                        </ul>
+                    </div>
+                </div>
+            `,
+            "Viu": `
+                <p class="font-bold">Fitur Paket Premium Viu:</p>
+                <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 mt-2 dark:text-gray-300">
+                    <li>Watch all our titles.</li>
+                    <li>Available on Phone/Tablet/Laptop/TV.</li>
+                    <li>Download selected content.</li>
+                    <li>Create 7 profiles.</li>
+                    <li>Max. device log ins: 10 devices.</li>
+                    <li>Concurrent streaming: 3 screens.</li>
+                    <li>Max. video quality: 4K (2160p).</li>
+                </ul>
+                <p class="text-xs italic mt-2 text-red-500">Paket Basic (1 Screen) max. 3 devices login & Full HD 1080p.</p>
+            `,
+            "YouTube Premium": `
+                <p class="font-bold">Perbedaan Famplan dan Indplan:</p>
+                <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 mt-2 dark:text-gray-300">
+                    <li><strong class="text-red-500">Famplan:</strong> Max hanya bisa 2 kali premium dalam 1 tahun. Sistem invite dan membutuhkan email customer.</li>
+                    <li><strong class="text-red-500">Indplan (Individual):</strong> Hanya sendiri, tidak ramai-ramai seperti famplan. Membutuhkan email + password customer yang benar-benar masih fresh/baru.</li>
+                </ul>
+            `,
+            "Canva": `
+                <p class="font-bold">Perbedaan Member dan Admin:</p>
+                <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 mt-2 dark:text-gray-300">
+                    <li><strong class="text-red-500">Member:</strong> Mendapatkan semua fitur Pro, tetapi bergabung dengan tim yang sudah ada. Aman, hanya terkadang ada batasan fitur tertentu dari Admin.</li>
+                    <li><strong class="text-red-500">Admin:</strong> Anda menjadi pemilik tim dan dapat mengundang member lain. Akses fitur Pro 100% tanpa batasan.</li>
+                </ul>
+            `,
+        };
+
+        // --- VARIABLE GLOBAL UNTUK CAROUSEL TESTIMONI ---
+        let currentIndex = 0;
+        let totalCards = 0;
+        let cardWidth = 0;
+        let autoSlideInterval;
+        const slider = document.getElementById('testimonial-slider');
+        let currentAppName = '';
+
+        // --- HELPER FUNCTIONS ---
+        const formatRupiah = (number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(number);
+
+        const groupPackages = (packages) => packages.reduce((acc, item) => {
+            (acc[item.category] = acc[item.category] || []).push(item);
+            return acc;
+        }, {});
+
+        function showNotification(message, type = 'success') {
+            const container = document.getElementById('notification-container');
+            const color = type === 'success' ? 'bg-accent-wa' : 'bg-red-500';
+            const html = `
+                <div class="p-4 rounded-lg shadow-lg text-white font-medium ${color} transform transition duration-300 ease-in-out">
+                    ${message}
+                </div>
+            `;
+            const notification = document.createElement('div');
+            notification.innerHTML = html;
+            container.appendChild(notification);
+
+            setTimeout(() => {
+                notification.classList.add('opacity-0', 'scale-90');
+                notification.addEventListener('transitionend', () => notification.remove());
+            }, 3000);
+        }
+        
+        // --- LOGIKA DARK MODE ---
+        function toggleTheme() {
+            const html = document.documentElement;
+            const isDark = html.classList.toggle('dark');
+            
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            lucide.createIcons();
+        }
+
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const html = document.documentElement;
+            
+            if (savedTheme === 'dark') {
+                html.classList.add('dark');
+            } else {
+                html.classList.remove('dark');
+            }
+        }
+        // --- END LOGIKA DARK MODE ---
+
+
+        // --- ANIMASI BLUR PADA HEADER SAAT SCROLL (Original Code) ---
+        const header = document.getElementById('main-header');
+        const scrollThreshold = 50;  
+
+        function toggleHeaderBlur() {
+            if (window.scrollY > scrollThreshold) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        }
+
+        // --- ANIMASI SAAT SCROLL (SCROLL-APPEAR) - KUNCI PERBAIKAN ---
+        let staticObserver;  
+
+        function initScrollAppear(reset = false) {
+            if (staticObserver && reset) {
+                staticObserver.disconnect();
+            }
+
+            const scrollAppearElements = document.querySelectorAll('.scroll-appear');
+
+            if (!staticObserver || reset) {
+                staticObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        const target = entry.target;
+                        if (entry.isIntersecting) {
+                            target.classList.add('active');
+                            staticObserver.unobserve(target);
+                        }
+                    });
+                }, {
+                    rootMargin: '0px',
+                    threshold: 0.1
+                });
+            }
+
+            scrollAppearElements.forEach(element => {
+                if (reset) {
+                    element.classList.remove('active');  
+                }
+                staticObserver.observe(element);
+            });
+        }
+        
+        // --- ANIMASI UNDERLINE PADA NAVIGASI (Original Code) ---
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.style.position = 'relative';  
+            
+            const underline = document.createElement('span');
+            underline.classList.add('absolute', 'bottom-0', 'left-1/2', 'transform', '-translate-x-1/2', 'h-[3px]', 'bg-blue-600', 'rounded-full');
+            underline.style.width = '0%';
+            underline.style.transition = 'width 0.3s ease-out';
+            
+            link.appendChild(underline);
+
+            link.addEventListener('mouseenter', () => {
+                underline.style.width = '100%';
+            });
+            link.addEventListener('mouseleave', () => {
+                underline.style.width = '0%';
+            });
+        });
+
+
+        // --- LOGIKA GENERASI CARD PRODUK DINAMIS (DENGAN BANNER & LOGO) ---
+        function generatePricelistCards() {
+            const container = document.getElementById('pricelist-section');
+            container.innerHTML = '';
+            const searchInput = document.getElementById('search-input');
+            const searchTerms = searchInput ? searchInput.value.toLowerCase().trim() : '';
+            const appNames = Object.keys(PRICES).sort();  
+
+            let cardIndex = 0;  
+            appNames.forEach((appName) => {
+                const packages = PRICES[appName];
+                const minPriceItem = packages.reduce((min, current) => (current.price < min.price ? current : min), packages[0] || { price: 0, duration: '' });
+                
+                const appInfo = APP_IMAGES[appName];
+                const brandColorHex = BRAND_COLORS[appName] ? BRAND_COLORS[appName].main : '#2563EB'; // Mengambil warna HEX
+                const fallbackLogoBg = brandColorHex.substring(1); // Menghilangkan '#' untuk placeholder
+                
+                // Ambil semua kategori data untuk pencarian
+                const dataCategories = packages.map(p => p.data_category).filter((value, index, self) => self.indexOf(value) === index).join(' ');
+
+                // Logika Pencarian
+                if (!appName.toLowerCase().includes(searchTerms) && !dataCategories.toLowerCase().includes(searchTerms) && searchTerms !== '') {
+                    return; // Lewati jika tidak cocok dengan pencarian
+                }
+
+                // Struktur Card Visual Baru
+                const imageContainerHtml = appInfo ? `
+                    <!-- Banner (Background) -->
+                    <div class="h-20 relative overflow-hidden rounded-t-2xl flex items-center justify-center bg-gray-200" style="background-color: ${brandColorHex};">
+                        <img src="${appInfo.banner}"  
+                            onerror="this.style.display='none'; this.parentElement.style.backgroundColor='${brandColorHex}'; this.parentElement.classList.add('opacity-80', 'bg-gradient-to-r');"  
+                            alt="${appName} Banner"  
+                            class="w-full h-full object-cover">
+                    </div>
+
+                    <!-- Logo Overlay -->
+                    <img src="${appInfo.logo}"  
+                        onerror="this.onerror=null; this.src='https://placehold.co/64x64/${fallbackLogoBg}/ffffff?text=${appName.substring(0,2)}';"  
+                        alt="${appName} Logo"  
+                        class="absolute w-16 h-16 rounded-full border-4 border-white top-12 left-1/2 transform -translate-x-1/2 shadow-xl object-contain bg-white p-1 dark:border-gray-800 dark:bg-gray-800">
+                ` : `
+                    <!-- Fallback Banner (Solid Color) -->
+                    <div class="h-20 rounded-t-2xl relative overflow-hidden bg-gradient-to-r from-blue-700 to-blue-500 opacity-80" style="background-color: ${brandColorHex};"></div>
+                    <!-- Fallback Logo (Icon) - Jika tidak ada data gambar sama sekali -->
+                    <div class="absolute w-16 h-16 rounded-full border-4 border-white top-12 left-1/2 transform -translate-x-1/2 shadow-xl flex items-center justify-center bg-white p-1 dark:border-gray-800 dark:bg-gray-800">
+                        <i data-lucide="${PRODUCT_ICONS[appName] || 'monitor'}" class="w-10 h-10" style="color: ${brandColorHex};"></i>
+                    </div>
+                `;
+
+                const cardHtml = `
+                    <div class="app-card card-product bg-white rounded-2xl flex flex-col scroll-appear relative overflow-hidden" 
+                         onclick="showModal('${appName}')"
+                         data-name="${appName}"
+                         data-category="${dataCategories}"
+                         style="animation-delay: ${cardIndex * 0.1}s;">
+                        
+                        ${imageContainerHtml}
+                        
+                        <div class="p-6 pt-10 flex flex-col justify-between flex-grow text-center">
+                            <h3 class="text-xl font-bold text-gray-900 mb-1 dark:text-gray-100">${appName}</h3>
+                            <p class="text-gray-500 mb-1 font-medium dark:text-gray-400">Paket termurah:</p>
+                            <p class="text-3xl font-extrabold mb-4" style="color: ${brandColorHex};">
+                                ${formatRupiah(minPriceItem.price)}
+                            </p>
+                            <span class="text-sm text-gray-600 dark:text-gray-400">(${minPriceItem.duration || 'Lihat Detail'})</span>
+                            <button class="mt-4 w-full py-2 font-semibold rounded-xl text-white shadow-md transition duration-200 hover:opacity-90"
+                                style="background-color: ${brandColorHex};">
+                                Lihat Paket & Beli
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += cardHtml;
+                cardIndex++;
+            });
+            lucide.createIcons();
+            initScrollAppear(true);  
+        }
+
+        function filterCards() { generatePricelistCards(); }
+
+        // --- LOGIKA MODAL, PEMBELIAN, DAN WHATSAPP (INTEGRASI FILE KEDUA) ---
+        
+        function toggleCollapse(contentId, iconId) {
+            const content = document.getElementById(contentId);
+            const icon = document.getElementById(iconId);
+
+            content.classList.toggle('open');
+            icon.classList.toggle('rotate-180');
+        }
+
+        function showModal(appName) {
+            currentAppName = appName;
+            const packages = PRICES[appName];
+            const groupedPackages = groupPackages(packages.filter(p => p.category !== 'Member' || p.duration !== 'Add-on'));
+            const brandColor = BRAND_COLORS[appName] ? BRAND_COLORS[appName].main : '#2563EB';
+
+            // KETERANGAN APLIKASI
+            const keteranganHtml = APP_KETERANGAN[appName];
+            const keteranganContainer = document.getElementById('app-keterangan-content');
+            const keteranganToggle = document.getElementById('app-keterangan-toggle');
+            
+            if (keteranganHtml) {
+                keteranganContainer.innerHTML = keteranganHtml;
+                keteranganToggle.classList.remove('hidden');
+            } else {
+                keteranganToggle.classList.add('hidden');
+            }
+            // Reset collapse state
+            keteranganContainer.classList.remove('open');
+            const icon = document.getElementById('keterangan-icon');
+            if (icon) icon.classList.remove('rotate-180');
+
+
+            document.getElementById('modal-title').innerHTML = `<span style="color: ${brandColor};">Paket Premium</span> ${appName}`;
+            const detailContent = document.getElementById('modal-detail-content');
+            detailContent.innerHTML = '';
+
+            for (const category in groupedPackages) {
+                let categoryHtml = `<h4 class="text-xl font-bold mt-4 mb-3 border-b border-soft-blue pb-1 dark:border-gray-700 dark:text-gray-200">${category}</h4>`;
+                
+                groupedPackages[category].forEach(item => {
+                    let isAddOn = (appName === 'Canva' && item.duration === 'Add-on');
+                    const stockDisplay = item.stock > 0 ? `<span class="text-xs font-semibold p-1 px-2 rounded-full bg-green-100 text-green-600">Stok: ${item.stock}</span>` : `<span class="text-xs font-semibold p-1 px-2 rounded-full bg-red-100 text-red-600">Habis</span>`;
+                    
+                    const itemHtml = `
+                        <div class="flex justify-between items-center p-3 bg-light-bg rounded-lg shadow-sm border-l-4 my-2 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600" style="border-left-color: ${brandColor};">
+                            <div class="flex flex-col">
+                                <span class="font-medium">${item.name}</span>
+                                <span class="text-sm text-gray-500 dark:text-gray-400">${item.duration}</span>
+                                ${stockDisplay}
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <span class="text-lg font-bold" style="color: ${brandColor};">${isAddOn ? item.name : formatRupiah(item.price)}</span>
+                                ${isAddOn || item.stock === 0 ? '' : `<button onclick="showPurchaseForm('${appName}', '${item.id}')" class="px-4 py-2 text-sm text-white rounded-lg hover:opacity-90 transition" style="background-color: ${brandColor};">Beli</button>`}
+                            </div>
+                        </div>
+                    `;
+                    categoryHtml += itemHtml;
+                });
+                detailContent.innerHTML += categoryHtml;
+            }
+            
+            document.getElementById('purchase-form').classList.add('hidden');
+            document.getElementById('order-detail-card').style.borderColor = brandColor;  
+
+            const modal = document.getElementById('order-modal');
+            const modalContent = modal.querySelector('.modal-content-container');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                modal.classList.add('opacity-100');
+                modalContent.classList.remove('opacity-0', 'scale-95');
+                modalContent.classList.add('opacity-100', 'scale-100');
+            }, 10);
+            lucide.createIcons(); // Pastikan ikon di modal juga dibuat
+        }
+        
+        function closeModal(event = null) {
+            if (event && event.target !== document.getElementById('order-modal')) return;
+
+            const modal = document.getElementById('order-modal');
+            const modalContent = modal.querySelector('.modal-content-container');
+            
+            modal.classList.remove('opacity-100');
+            modalContent.classList.remove('opacity-100', 'scale-100');
+            modalContent.classList.add('opacity-0', 'scale-95');
+
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.getElementById('purchase-form').classList.add('hidden');  
+                document.getElementById('modal-detail-content').classList.remove('hidden');
+            }, 300);
+        }
+
+        function showPurchaseForm(appName, itemId) {
+            const selectedItem = PRICES[appName].find(item => item.id === itemId);
+            const brandColor = BRAND_COLORS[appName] ? BRAND_COLORS[appName].main : '#2563EB';
+
+            if (!selectedItem || selectedItem.stock === 0) {
+                showNotification('Stok paket ini sedang habis.', 'error');
+                return;
+            }
+            
+            document.getElementById('modal-detail-content').classList.add('hidden');
+            document.getElementById('purchase-form').classList.remove('hidden');
+
+            document.getElementById('order-item-detail').textContent = `${appName} - ${selectedItem.name}`;
+            document.getElementById('selected-price-id').value = itemId;
+            document.getElementById('selected-price-unit-price').value = selectedItem.price;
+            
+            document.getElementById('total-price-display-container').style.backgroundColor = brandColor;
+
+            document.getElementById('quantity-display').textContent = '1';
+            updateTotal(selectedItem.price, 1);
+            
+            const paymentMethods = ["Dana", "OVO", "Gopay", "QRIS", "BCA", "Mandiri"];
+            const paymentContainer = document.getElementById('payment-methods');
+            paymentContainer.innerHTML = paymentMethods.map((method, index) => `
+                <label for="pay-${method.toLowerCase()}" class="flex items-center justify-center p-3 border-2 border-soft-blue rounded-lg cursor-pointer hover:border-deep-blue transition duration-150 has-[:checked]:bg-soft-blue/50 has-[:checked]:border-deep-blue/70 shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 dark:has-[:checked]:bg-gray-600/50 dark:has-[:checked]:border-blue-400">
+                    <input type="radio" id="pay-${method.toLowerCase()}" name="payment-method" value="${method}" ${index === 0 ? 'checked' : ''} class="mr-2 hidden">
+                    <span class="font-medium">${method}</span>
+                </label>
+            `).join('');
+            lucide.createIcons();
+        }
+        
+        function updateQuantity(change) {
+            const display = document.getElementById('quantity-display');
+            const itemId = document.getElementById('selected-price-id').value;
+            const appName = currentAppName;
+            const selectedItem = PRICES[appName].find(item => item.id === itemId);
+            
+            let currentQty = parseInt(display.textContent);
+            const unitPrice = parseInt(document.getElementById('selected-price-unit-price').value);
+            const MAX_QTY = 3;
+            const MAX_STOCK = selectedItem ? selectedItem.stock : 3;
+
+            let newQty = currentQty + change;
+            
+            if (newQty < 1) newQty = 1;
+            if (newQty > MAX_QTY) newQty = MAX_QTY;
+            if (newQty > MAX_STOCK) {
+                newQty = MAX_STOCK;
+                showNotification(`Pembelian maksimal hanya ${MAX_STOCK} karena keterbatasan stok.`, 'error');
+            }
+            
+            display.textContent = newQty;
+            updateTotal(unitPrice, newQty);
+        }
+
+        function updateTotal(unitPrice, quantity) {
+            const totalPrice = unitPrice * quantity;
+            document.getElementById('total-price-display').textContent = formatRupiah(totalPrice);
+        }
+        
+        function generateWaLink() {
+            const itemId = document.getElementById('selected-price-id').value;
+            const quantity = parseInt(document.getElementById('quantity-display').textContent);
+            const unitPrice = parseInt(document.getElementById('selected-price-unit-price').value);
+            const total = unitPrice * quantity;
+            
+            const selectedItem = PRICES[currentAppName].find(item => item.id === itemId);
+            const selectedPayment = document.querySelector('input[name="payment-method"]:checked');
+
+            if (!selectedItem || !selectedPayment) return;
+            
+            const category = currentAppName;
+            const packageType = selectedItem.category;
+            const time = selectedItem.duration;
+            const paymentMethod = selectedPayment.value;
+            
+            const now = new Date();
+            const dateOptions = { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' };
+            const transactionTime = now.toLocaleDateString('id-ID', dateOptions).replace('.', '').replace('pukul', '').trim();
+            
+            // Generate Pesan WA
+            const message = `
+Halo Avee, saya ingin memesan paket berikut:
+Kategori         : ${category}
+Paket            : ${selectedItem.name} (${packageType})
+Waktu            : ${time}
+Jumlah           : ${quantity}
+Harga satuan : ${formatRupiah(unitPrice)}
+Total Harga      : ${formatRupiah(total)}
+Metode Pembayaran : ${paymentMethod}
+
+Mohon diproses, terima kasih!
+            `.trim();
+
+            const waNumber = '6287766107867';
+            const encodedMessage = encodeURIComponent(message);
+            const waLink = `https://wa.me/${waNumber}?text=${encodedMessage}`;
+            
+            window.open(waLink, '_blank');
+            closeModal();
+            showNotification('Pesanan Anda sudah siap! Anda akan diarahkan ke WhatsApp.', 'success');
+        }
+        
+        // --- LOGIKA CAROUSEL TESTIMONI (Perbaikan BUG) ---
+        function getCardWidth() {
+            const card = slider.querySelector('.testimonial-card-wrapper');
+             // Menggunakan offsetWidth jika card ada, jika tidak, kembalikan 0.
+            return card ? card.offsetWidth : 0;  
+        }
+
+        function updateCarousel() {
+            if (!slider) return;
+
+            const cards = slider.querySelectorAll('.testimonial-card-wrapper');
+            const carouselContainer = slider.parentElement;
+
+            if (!carouselContainer || cards.length === 0) return;
+            
+            const containerWidth = carouselContainer.clientWidth;
+            cardWidth = getCardWidth();
+
+            // Tentukan jumlah kartu yang terlihat
+            let cardsVisible;
+            if (window.innerWidth >= 768) {
+                 cardsVisible = 3;
+            } else {
+                 cardsVisible = 1;
+            }
+
+
+            let targetTranslateX;
+            
+            if (cardsVisible > 1) {
+                 // Geser ke posisi kartu saat ini, lalu offset untuk centering
+                 // Offset = (Lebar container / 2) - (Lebar kartu / 2)
+                 const offset = (containerWidth / 2) - (cardWidth / 2);
+                 targetTranslateX = -currentIndex * cardWidth + offset;
+            } else {
+                 // Di mobile (1 kartu), offset untuk centering
+                 const offset = (containerWidth / 2) - (cardWidth / 2);
+                 targetTranslateX = -currentIndex * cardWidth + offset;
+            }
+
+            slider.style.transform = `translateX(${targetTranslateX}px)`;
+
+            cards.forEach((card, index) => {
+                card.classList.remove('active');
+                if (index === currentIndex) {
+                    card.classList.add('active');
+                }
+            });
+        }
+
+        function nextTestimonial() {
+            if (currentIndex < totalCards - 1) {
+                currentIndex++;
+            } else {
+                currentIndex = 0; // Loop ke awal
+            }
+            updateCarousel();
+            resetAutoSlide();
+        }
+
+        function prevTestimonial() {
+            if (currentIndex > 0) {
+                currentIndex--;
+            } else {
+                currentIndex = totalCards - 1; // Loop ke akhir
+            }
+            updateCarousel();
+            resetAutoSlide();
+        }
+
+        function startAutoSlide() {
+            if(totalCards > 1) { // Hanya slide jika ada lebih dari 1 card
+                autoSlideInterval = setInterval(() => {
+                    nextTestimonial();
+                }, 4000);  
+            }
+        }
+
+        function resetAutoSlide() {
+            clearInterval(autoSlideInterval);
+            startAutoSlide();
+        }
+        
+        // Fungsi inisialisasi utama
+        function initTestimonialCarousel() {
+            if (!slider) return;
+
+            totalCards = slider.querySelectorAll('.testimonial-card-wrapper').length;
+            
+            currentIndex = 0;  
+            
+            // Panggil updateCarousel DULU agar cardWidth terhitung.
+            updateCarousel();  
+            
+            startAutoSlide();
+            
+            window.addEventListener('resize', updateCarousel);
+        }
+
+        // --- INISIALISASI ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // 0. Muat Tema Tersimpan
+            loadTheme();
+            
+            // 1. Inisialisasi Produk Lengkap (memanggil initScrollAppear(true))
+            generatePricelistCards();  
+            
+            // 2. Inisialisasi Ikon
+            lucide.createIcons();
+            
+            // 3. Inisialisasi Blur Header
+            window.addEventListener('scroll', toggleHeaderBlur);
+            toggleHeaderBlur();  
+            
+            // 4. Inisialisasi Carousel
+            initTestimonialCarousel();
+
+            // 5. EFEK BARU: Inisialisasi Parallax Hero
+            const heroSection = document.querySelector('.hero-section');
+            const floatingCards = document.querySelectorAll('.floating-card');
+
+            heroSection.addEventListener('mousemove', (e) => {
+                const { clientX, clientY } = e;
+                const { innerWidth, innerHeight } = window;
+                
+                // Hitung posisi kursor dari tengah (-0.5 sampai 0.5)
+                const percentX = (clientX / innerWidth) - 0.5;
+                const percentY = (clientY / innerHeight) - 0.5;
+                
+                const strength = 40; // Kekuatan pergerakan (lebih terlihat)
+
+                floatingCards.forEach((card, index) => {
+                    // Beri "kedalaman" (depth) yang berbeda untuk setiap kartu
+                    const depth = [0.4, 1.0, 0.7, 0.9][index] || 0.5;
+                    
+                    const moveX = percentX * strength * depth;
+                    const moveY = percentY * strength * depth;
+                    
+                    // Ambil transform dasar dari Tailwind (ini adalah bagian yang sulit, jadi kita hardcode saja)
+                    const baseTransforms = [
+                        'rotate(3deg) translateY(-48px)', // Card 1 (Netflix)
+                        'rotate(-6deg)',                 // Card 2 (Spotify)
+                        'rotate(12deg)',                // Card 3 (Lightroom)
+                        'rotate(-3deg)'                 // Card 4 (YouTube)
+                    ];
+
+                    // Terapkan transform dasar + transform parallax
+                    card.style.transform = `${baseTransforms[index]} translateX(${moveX}px) translateY(${moveY}px)`;
+                });
+            });
+        });
+        
+        // Memastikan fungsi navigasi global tersedia
+        window.nextTestimonial = nextTestimonial;
+        window.prevTestimonial = prevTestimonial;
+        window.toggleTheme = toggleTheme; // Daftarkan fungsi toggleTheme
+    </script>
+</body>
+</html>
